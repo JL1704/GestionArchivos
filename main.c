@@ -4,7 +4,7 @@
 
 int main(void) {
     int option = getInitialOption();
-    char* route;
+    char* route = NULL;
 
     switch (option) {
         case 1: route = createAgenda();
@@ -12,7 +12,7 @@ int main(void) {
         case 2: route = openAgenda();
             break;
         case 3: printf("Saliendo...\n");
-            break;
+            exit(0);
         default: ;
     }
 
