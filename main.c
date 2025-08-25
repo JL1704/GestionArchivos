@@ -3,7 +3,26 @@
 #include "options.h"
 
 int main(void) {
-    int option;
+    int option = getInitialOption();
+    char* route;
+
+    switch (option) {
+        case 1: route = createAgenda();
+            break;
+        case 2: route = openAgenda();
+            break;
+        case 3: printf("Saliendo...\n");
+            break;
+        default: ;
+    }
+
+    if (route == NULL) {
+        printf("\nError: La ruta esta vacia.");
+        getchar();
+        exit(1);
+    }
+
+    clearScreen();
 
     do {
         option = getOption();

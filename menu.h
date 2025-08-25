@@ -13,6 +13,8 @@
 
 void clearScreen();
 void showMenu();
+void showInitialMenu();
 int getOption();
+int getInitialOption();
 
 #endif //GESTIONARCHIVOS_MENU_H

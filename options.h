@@ -8,6 +8,8 @@
 #include <ctype.h>
 
 // Declaraciones de funciones
+char* createAgenda();
+char* openAgenda();
 void addContact();
 void viewContacts();
 void searchContact();

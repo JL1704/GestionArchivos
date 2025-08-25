@@ -29,6 +29,14 @@ void showMenu() {
     printf("================================\n");
 }
 
+void showInitialMenu() {
+    printf("====== Bienvienido ======\n");
+    printf("1. Crear Agenda\n");
+    printf("2. Abrir Agenda\n");
+    printf("3. Salir\n");
+    printf("================================\n");
+}
+
 int getOption() {
     char input[100];
     int option = 0;
@@ -64,6 +72,49 @@ int getOption() {
 
         if (option < 1 || option > 8) {
             printf("Opcion fuera de rango. Ingrese un numero entre 1 y 8.\n\n");
+            valido = 0;
+        }
+
+    } while (!valido);
+
+    return option;
+}
+
+int getInitialOption() {
+    char input[100];
+    int option = 0;
+    int valido;
+
+    do {
+        valido = 1;
+        showInitialMenu();
+        printf("Ingrese una opcion (1-3): ");
+
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("Error al leer entrada. Intente nuevamente.\n");
+            valido = 0;
+            continue;
+        }
+
+        input[strcspn(input, "\n")] = '\0';
+
+        for (int i = 0; input[i] != '\0'; i++) {
+            if (!isdigit((unsigned char)input[i])) {
+                valido = 0;
+                break;
+            }
+        }
+
+        if (!valido || strlen(input) == 0) {
+            printf("Entrada invalida. Debe ingresar un numero entero.\n\n");
+            valido = 0;
+            continue;
+        }
+
+        option = atoi(input);
+
+        if (option < 1 || option > 3) {
+            printf("Opcion fuera de rango. Ingrese un numero entre 1 y 3.\n\n");
             valido = 0;
         }
 
