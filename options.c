@@ -183,12 +183,136 @@ void searchContact(const char *route) {
     fclose(file);
 }
 
-void editContact() {
-    printf("\nFunción editContact llamada\n");
+void editContact(const char *route) {
+    FILE *file = fopen(route, "r");
+    if (!file) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    // Crear archivo temporal
+    FILE *temp = fopen("temp.txt", "w");
+    if (!temp) {
+        printf("Error: no se pudo crear archivo temporal\n");
+        fclose(file);
+        return;
+    }
+
+    char query[50];
+    printf("\n=== Editar contacto ===\n");
+    printf("Ingrese nombre o telefono del contacto a editar: ");
+    fgets(query, sizeof(query), stdin);
+    query[strcspn(query, "\n")] = '\0';
+
+    char line[200];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = '\0';
+        if (strlen(line) == 0) continue;
+
+        Contact c = {0};
+        char *token = strtok(line, ";");
+        if (token) strncpy(c.name, token, sizeof(c.name)-1);
+        token = strtok(NULL, ";");
+        if (token) strncpy(c.phone, token, sizeof(c.phone)-1);
+        token = strtok(NULL, ";");
+        if (token) strncpy(c.email, token, sizeof(c.email)-1);
+
+        if (!found && (strstr(c.name, query) || strstr(c.phone, query))) {
+            found = 1;
+            printf("\nContacto encontrado: %s, %s, %s\n", c.name, c.phone, c.email);
+
+            printf("Nuevo nombre (dejar vac%co para no cambiar): ", 161);
+            char newName[50];
+            fgets(newName, sizeof(newName), stdin);
+            newName[strcspn(newName, "\n")] = '\0';
+            if (strlen(newName) > 0) strncpy(c.name, newName, sizeof(c.name)-1);
+
+            printf("Nuevo telefono (dejar vac%co para no cambiar): ", 161);
+            char newPhone[20];
+            fgets(newPhone, sizeof(newPhone), stdin);
+            newPhone[strcspn(newPhone, "\n")] = '\0';
+            if (strlen(newPhone) > 0) strncpy(c.phone, newPhone, sizeof(c.phone)-1);
+
+            printf("Nuevo email (dejar vac%co para no cambiar): ", 161);
+            char newEmail[50];
+            fgets(newEmail, sizeof(newEmail), stdin);
+            newEmail[strcspn(newEmail, "\n")] = '\0';
+            if (strlen(newEmail) > 0) strncpy(c.email, newEmail, sizeof(c.email)-1);
+        }
+
+        // Guardar contacto (editado o no)
+        fprintf(temp, "%s;%s;%s\n", c.name, c.phone, c.email);
+    }
+
+    fclose(file);
+    fclose(temp);
+
+    // Reemplazar archivo original
+    remove(route);
+    rename("temp.txt", route);
+
+    if (found) {
+        printf("\nContacto editado correctamente.\n");
+    } else {
+        printf("\nNo se encontr%c contacto con \"%s\".\n", 162, query);
+    }
 }
 
-void deleteContact() {
-    printf("\nFunción deleteContact llamada\n");
+void deleteContact(const char *route) {
+    FILE *file = fopen(route, "r");
+    if (!file) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    FILE *temp = fopen("temp.txt", "w");
+    if (!temp) {
+        printf("Error: no se pudo crear archivo temporal\n");
+        fclose(file);
+        return;
+    }
+
+    char query[50];
+    printf("\n=== Eliminar contacto ===\n");
+    printf("Ingrese nombre o tel%cfono del contacto a eliminar: ", 130);
+    fgets(query, sizeof(query), stdin);
+    query[strcspn(query, "\n")] = '\0';
+
+    char line[200];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = '\0';
+        if (strlen(line) == 0) continue;
+
+        Contact c = {0};
+        char *token = strtok(line, ";");
+        if (token) strncpy(c.name, token, sizeof(c.name)-1);
+        token = strtok(NULL, ";");
+        if (token) strncpy(c.phone, token, sizeof(c.phone)-1);
+        token = strtok(NULL, ";");
+        if (token) strncpy(c.email, token, sizeof(c.email)-1);
+
+        if (!found && (strstr(c.name, query) || strstr(c.phone, query))) {
+            found = 1;
+            printf("\nContacto eliminado: %s, %s, %s\n", c.name, c.phone, c.email);
+            continue; // no escribir al archivo temporal
+        }
+
+        fprintf(temp, "%s;%s;%s\n", c.name, c.phone, c.email);
+    }
+
+    fclose(file);
+    fclose(temp);
+
+    remove(route);
+    rename("temp.txt", route);
+
+    if (!found) {
+        printf("\nNo se encontr%c contacto con \"%s\".\n", 162, query);
+    }
 }
 
 void countContacts() {

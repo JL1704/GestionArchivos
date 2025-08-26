@@ -45,7 +45,7 @@ int getOption() {
     do {
         valido = 1;
         showMenu();
-        printf("Ingrese una opcion (1-8): ");
+        printf("Ingrese una opci%cn (1-8): ", 162);
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("Error al leer entrada. Intente nuevamente.\n");
@@ -63,7 +63,7 @@ int getOption() {
         }
 
         if (!valido || strlen(input) == 0) {
-            printf("Entrada invalida. Debe ingresar un numero entero.\n\n");
+            printf("Entrada inv%clida. Debe ingresar un numero entero.\n\n", 160);
             valido = 0;
             continue;
         }
@@ -71,7 +71,7 @@ int getOption() {
         option = atoi(input);
 
         if (option < 1 || option > 8) {
-            printf("Opcion fuera de rango. Ingrese un numero entre 1 y 8.\n\n");
+            printf("Opci%cn fuera de rango. Ingrese un numero entre 1 y 8.\n\n", 162);
             valido = 0;
         }
 
@@ -88,7 +88,7 @@ int getInitialOption() {
     do {
         valido = 1;
         showInitialMenu();
-        printf("Ingrese una opcion (1-3): ");
+        printf("Ingrese una opci%cn (1-3): ", 162);
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("Error al leer entrada. Intente nuevamente.\n");
@@ -106,7 +106,7 @@ int getInitialOption() {
         }
 
         if (!valido || strlen(input) == 0) {
-            printf("Entrada invalida. Debe ingresar un numero entero.\n\n");
+            printf("Entrada inv%clida. Debe ingresar un numero entero.\n\n", 160);
             valido = 0;
             continue;
         }
@@ -114,7 +114,7 @@ int getInitialOption() {
         option = atoi(input);
 
         if (option < 1 || option > 3) {
-            printf("Opcion fuera de rango. Ingrese un numero entre 1 y 3.\n\n");
+            printf("Opci%cn fuera de rango. Ingrese un numero entre 1 y 3.\n\n", 162);
             valido = 0;
         }
 

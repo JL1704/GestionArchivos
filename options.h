@@ -19,8 +19,8 @@ char* openAgenda();
 void addContact(const char *route);
 void viewContacts(const char *route);
 void searchContact(const char *route);
-void editContact();
-void deleteContact();
+void editContact(const char *route);
+void deleteContact(const char *route);
 void countContacts();
 void resetContacts();
 

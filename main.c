@@ -30,8 +30,8 @@ int main(void) {
             case 1: addContact(route); break;
             case 2: viewContacts(route); break;
             case 3: searchContact(route); break;
-            case 4: editContact(); break;
-            case 5: deleteContact(); break;
+            case 4: editContact(route); break;
+            case 5: deleteContact(route); break;
             case 6: countContacts(); break;
             case 7: resetContacts(); break;
             case 8: printf("Saliendo...\n"); break;
