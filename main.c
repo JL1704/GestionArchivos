@@ -28,7 +28,7 @@ int main(void) {
 
         switch (option) {
             case 1: addContact(route); break;
-            case 2: viewContacts(); break;
+            case 2: viewContacts(route); break;
             case 3: searchContact(); break;
             case 4: editContact(); break;
             case 5: deleteContact(); break;

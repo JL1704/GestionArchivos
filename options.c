@@ -90,8 +90,48 @@ void addContact(const char *route) {
     printf("Contacto agregado correctamente\n");
 }
 
-void viewContacts() {
-    printf("\nFunción viewContacts llamada\n");
+void viewContacts(const char *route) {
+    FILE *file = fopen(route, "r");
+    if (file == NULL) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    char line[200];
+    int count = 0;
+
+    printf("\n=== Lista de contactos ===\n");
+
+    while (fgets(line, sizeof(line), file)) {
+        // Elimina salto de línea al final
+        line[strcspn(line, "\n")] = '\0';
+
+        // Saltar líneas vacías o de cabecera
+        if (strlen(line) == 0 || strstr(line, "Archivo creado exitosamente")) {
+            continue;
+        }
+
+        Contact c;
+        char *token = strtok(line, ";");
+        if (token != NULL) strncpy(c.name, token, sizeof(c.name));
+
+        token = strtok(NULL, ";");
+        if (token != NULL) strncpy(c.phone, token, sizeof(c.phone));
+
+        token = strtok(NULL, ";");
+        if (token != NULL) strncpy(c.email, token, sizeof(c.email));
+
+        printf("\nContacto %d\n", ++count);
+        printf("Nombre : %s\n", c.name);
+        printf("Telefono: %s\n", c.phone);
+        printf("Email  : %s\n", c.email);
+    }
+
+    if (count == 0) {
+        printf("\n(No hay contactos en la agenda)\n");
+    }
+
+    fclose(file);
 }
 
 void searchContact() {

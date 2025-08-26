@@ -17,8 +17,8 @@ typedef struct {
 char* createAgenda();
 char* openAgenda();
 void addContact(const char *route);
-void viewContacts();
-void searchContact();
+void viewContacts(const char *route);
+void searchContact(const char *route);
 void editContact();
 void deleteContact();
 void countContacts();
