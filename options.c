@@ -11,7 +11,7 @@ char* createAgenda() {
     printf("Ingresa el nombre del archivo (sin extension): ");
     scanf("%99s", nameArchive);
 
-    // Reservamos memoria dinámica para la ruta
+    // Reservamos memoria dinamica para la ruta
     char *route = malloc(strlen(nameArchive) + 5);
     if (route == NULL) {
         printf("Error de memoria.\n");
@@ -20,14 +20,12 @@ char* createAgenda() {
 
     sprintf(route, "%s.txt", nameArchive);
 
-    archive = fopen(route, "w");
+    archive = fopen(route, "r");
     if (archive == NULL) {
         printf("Error al crear el archivo.\n");
         free(route);
         exit(1);
     }
-
-    fprintf(archive, "Archivo creado exitosamente.\n");
     fclose(archive);
 
     return route;
@@ -40,7 +38,7 @@ char* openAgenda() {
     printf("Ingresa el nombre del archivo (sin extension): ");
     scanf("%99s", nameArchive);
 
-    // Reservamos memoria dinámica para la ruta
+    // Reservamos memoria dinamica para la ruta
     char *route = malloc(strlen(nameArchive) + 5);
     if (route == NULL) {
         printf("Error de memoria.\n");
@@ -60,8 +58,36 @@ char* openAgenda() {
     return route;     // devolvemos la ruta
 }
 
-void addContact() {
-    printf("\nFunción addContact llamada\n");
+void addContact(const char *route) {
+    Contact c;
+    FILE *file;
+
+    // Pedir datos
+    printf("\n=== Agregar nuevo contacto ===\n");
+    printf("Nombre: ");
+    fgets(c.name, sizeof(c.name), stdin);
+    c.name[strcspn(c.name, "\n")] = '\0';
+
+    printf("Telefono: ");
+    fgets(c.phone, sizeof(c.phone), stdin);
+    c.phone[strcspn(c.phone, "\n")] = '\0';
+
+    printf("Email: ");
+    fgets(c.email, sizeof(c.email), stdin);
+    c.email[strcspn(c.email, "\n")] = '\0';
+
+    // Abrir archivo en modo append
+    file = fopen(route, "a");
+    if (file == NULL) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    // Guardar en formato CSV-like
+    fprintf(file, "%s;%s;%s\n", c.name, c.phone, c.email);
+
+    fclose(file);
+    printf("Contacto agregado correctamente\n");
 }
 
 void viewContacts() {

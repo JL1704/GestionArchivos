@@ -8,9 +8,15 @@
 #include <ctype.h>
 
 // Declaraciones de funciones
+typedef struct {
+    char name[50];
+    char phone[20];
+    char email[50];
+} Contact;
+
 char* createAgenda();
 char* openAgenda();
-void addContact();
+void addContact(const char *route);
 void viewContacts();
 void searchContact();
 void editContact();

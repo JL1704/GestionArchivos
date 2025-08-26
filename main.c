@@ -4,7 +4,7 @@
 
 int main(void) {
     int option = getInitialOption();
-    char* route = NULL;
+    char *route = NULL;
 
     switch (option) {
         case 1: route = createAgenda();
@@ -17,8 +17,7 @@ int main(void) {
     }
 
     if (route == NULL) {
-        printf("\nError: La ruta esta vacia.");
-        getchar();
+        fprintf(stderr, "\nError: La ruta no se pudo obtener.\n");
         exit(1);
     }
 
@@ -28,7 +27,7 @@ int main(void) {
         option = getOption();
 
         switch (option) {
-            case 1: addContact(); break;
+            case 1: addContact(route); break;
             case 2: viewContacts(); break;
             case 3: searchContact(); break;
             case 4: editContact(); break;
