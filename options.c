@@ -106,9 +106,8 @@ void viewContacts(const char *route) {
         // Elimina salto de línea al final
         line[strcspn(line, "\n")] = '\0';
 
-        // Saltar líneas vacías o de cabecera
-        if (strlen(line) == 0 || strstr(line, "Archivo creado exitosamente")) {
-            continue;
+        if (strlen(line) == 0) {
+            continue; // saltar líneas vacías
         }
 
         Contact c;
@@ -134,8 +133,54 @@ void viewContacts(const char *route) {
     fclose(file);
 }
 
-void searchContact() {
-    printf("\nFunción searchContact llamada\n");
+void searchContact(const char *route) {
+    FILE *file = fopen(route, "r");
+    if (file == NULL) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    char query[50];
+    printf("\n=== Buscar contacto ===\n");
+    printf("Ingrese nombre o telefono a buscar: ");
+    fgets(query, sizeof(query), stdin);
+    query[strcspn(query, "\n")] = '\0'; // quitar salto de línea
+
+    char line[200];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = '\0';
+
+        if (strlen(line) == 0) {
+            continue; // saltar líneas vacías
+        }
+
+        Contact c;
+        char *token = strtok(line, ";");
+        if (token != NULL) strncpy(c.name, token, sizeof(c.name));
+
+        token = strtok(NULL, ";");
+        if (token != NULL) strncpy(c.phone, token, sizeof(c.phone));
+
+        token = strtok(NULL, ";");
+        if (token != NULL) strncpy(c.email, token, sizeof(c.email));
+
+        // Coincidencia por nombre o teléfono
+        if (strstr(c.name, query) || strstr(c.phone, query)) {
+            printf("\n=== Contacto encontrado ===\n");
+            printf("Nombre : %s\n", c.name);
+            printf("Telefono: %s\n", c.phone);
+            printf("Email  : %s\n", c.email);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("\nNo se encontraron contactos con \"%s\"\n", query);
+    }
+
+    fclose(file);
 }
 
 void editContact() {
