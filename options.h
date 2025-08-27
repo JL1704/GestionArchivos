@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <fcntl.h>   // open, O_CREAT, O_WRONLY
+#include <unistd.h>  // close
+#include <errno.h>
 
 // Declaraciones de funciones
 typedef struct {
