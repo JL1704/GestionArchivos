@@ -4,7 +4,7 @@ project(GestionArchivos C)
 set(CMAKE_C_STANDARD 17)
 
 add_executable(GestionArchivos main.c
-        Options.h
-        Options.c
+        options.h
+        options.c
         menu.h
         menu.c)
