@@ -315,10 +315,38 @@ void deleteContact(const char *route) {
     }
 }
 
-void countContacts() {
-    printf("\nFunción countContacts llamada\n");
+void countContacts(const char *route) {
+    FILE *file = fopen(route, "r");
+    if (!file) {
+        printf("Error: no se pudo abrir el archivo %s\n", route);
+        return;
+    }
+
+    char line[200];
+    int count = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = '\0';
+        if (strlen(line) > 0) { // saltar líneas vacías
+            count++;
+        }
+    }
+
+    fclose(file);
+
+    printf("\nTotal de contactos en la agenda: %d\n", count);
 }
 
-void resetContacts() {
-    printf("\nFunción resetContacts llamada\n");
+
+void resetContacts(const char *route) {
+    FILE *file = fopen(route, "w"); // abre en modo escritura y borra todo el contenido
+    if (file == NULL) {
+        printf("Error: no se pudo reiniciar la agenda.\n");
+        return;
+    }
+    fclose(file);
+
+    printf("\nAgenda reiniciada correctamente. Cerranndo programa.\n");
+    exit(0); // termina la ejecución del programa
 }
+
