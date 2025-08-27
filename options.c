@@ -322,12 +322,17 @@ void countContacts(const char *route) {
         return;
     }
 
+    // Usando fseek y ftell para obtener tamaño del archivo
+    fseek(file, 0, SEEK_END);      // mover al final
+    long fileSize = ftell(file);   // obtener posición (tamaño en bytes)
+    fseek(file, 0, SEEK_SET);      // volver al inicio
+
+    // Contar número de contactos leyendo línea por línea
     char line[200];
     int count = 0;
-
     while (fgets(line, sizeof(line), file)) {
         line[strcspn(line, "\n")] = '\0';
-        if (strlen(line) > 0) { // saltar líneas vacías
+        if (strlen(line) > 0) {
             count++;
         }
     }
@@ -335,6 +340,7 @@ void countContacts(const char *route) {
     fclose(file);
 
     printf("\nTotal de contactos en la agenda: %d\n", count);
+    printf("Tamano del archivo: %ld bytes\n", fileSize);
 }
 
 
