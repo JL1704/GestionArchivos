@@ -20,7 +20,7 @@ char* createAgenda() {
 
     sprintf(route, "%s.txt", nameArchive);
 
-    archive = fopen(route, "r");
+    archive = fopen(route, "w");
     if (archive == NULL) {
         printf("Error al crear el archivo.\n");
         free(route);
