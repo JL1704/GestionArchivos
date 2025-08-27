@@ -32,7 +32,7 @@ int main(void) {
             case 3: searchContact(route); break;
             case 4: editContact(route); break;
             case 5: deleteContact(route); break;
-            case 6: countContacts(); break;
+            case 6: countContacts(route); break;
             case 7: resetContacts(route); break;
             case 8: printf("Saliendo...\n"); break;
             default: ;

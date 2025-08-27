@@ -21,7 +21,7 @@ void viewContacts(const char *route);
 void searchContact(const char *route);
 void editContact(const char *route);
 void deleteContact(const char *route);
-void countContacts();
-void resetContacts();
+void countContacts(const char *route);
+void resetContacts(const char *route);
 
 #endif // GESTIONARCHIVOS_OPTIONS_H
